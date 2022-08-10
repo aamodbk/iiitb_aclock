@@ -8,3 +8,4 @@ and the GTKWave toolkit.
 ## Introduction
 This design aims to apply the Verilog language into the
 development of a simple mechanism of a digital alarm clock. The block diagram for the proposed design is shown below
+![Alt text](blockdiagram.png?raw=true "Block Diagram")
