@@ -49,3 +49,17 @@ figure:
 The alarm is then turned off after 1 second and the
 clock-time is reset to 04 : 45. Next, another alarm is set to
 04 : 55, which functions as expected.
+
+## Contributors
+* Aamod B K
+* Kunal Ghosh
+
+## Acknowledgments
+* Kunal Ghosh, Director, VSD Corp. Pvt. Ltd.
+
+## Contact Information
+* Aamod B K, IMtech 2020, International Institute of Information Technology, Bangalore Aamod.BK@iiitb.ac.in
+* Kunal Ghosh, Director, VSD Corp. Pvt. Ltd. kunalghosh@gmail.com
+
+## References
+* fpga4student -- https://www.fpga4student.com/2016/11/verilog-code-for-alarm-clock-on-fpga.html
