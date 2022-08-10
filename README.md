@@ -30,9 +30,22 @@ To clone this repository and run the netlist and the testbench, execute the foll
 ```
 $   sudo apt install -y git
 $   git clone https://github.com/aamodbk/iiitb_aclock
-$   iverilog iiitb_pwm_gen.v iiitb_pwm_gen_tb.v
+$   iverilog iiitb_aclock.v iiitb_aclock_tb.v
 $   ./a.out
-$   gtkwave pwm.vcd
+$   gtkwave test.vcd
 ```
 
 ## Simulation Results
+In the testbench file, an Under Unit Test (UUT) is instan-
+tiated adn variables for input and output are provided to the
+test module. The clock variable is set to a frequency of 10 Hz.
+The testing proceeds as follows – Initially, the time is set to
+10 : 14. After 1 second, an alarm is set at the time 10 : 20.
+The alarm goes off at the set time of 10 : 20 as seen from the
+figure:
+
+![Alt text](graph.png?raw=true "Graph")
+
+The alarm is then turned off after 1 second and the
+clock-time is reset to 04 : 45. Next, another alarm is set to
+04 : 55, which functions as expected.
