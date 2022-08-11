@@ -30,6 +30,7 @@ To clone this repository and run the netlist and the testbench, execute the foll
 ```
 $   sudo apt install -y git
 $   git clone https://github.com/aamodbk/iiitb_aclock
+$   cd iiitb_aclock
 $   iverilog iiitb_aclock.v iiitb_aclock_tb.v
 $   ./a.out
 $   gtkwave test.vcd
