@@ -19,6 +19,11 @@ the required features. The created digital clock is capable of
 displaying hours, minutes and seconds upto two significant
 digits. Alarm can also be set upto the accuracy of minutes.
 
+### Applications
+* Can be used as a digital clock
+* Allows setting of alarm at a decided time
+* Allows option to turn off alarm when it goes off
+
 ## Instructions to Run
 ### For Ubuntu
 Open your terminal and type the following to install IcarusVerilog and GTKWave:
