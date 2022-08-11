@@ -36,8 +36,7 @@ $   gtkwave test.vcd
 ```
 
 ## Simulation Results
-In the testbench file, an Under Unit Test (UUT) is instan-
-tiated adn variables for input and output are provided to the
+In the testbench file, an Under Unit Test (UUT) is instantiated and variables for input and output are provided to the
 test module. The clock variable is set to a frequency of 10 Hz.
 The testing proceeds as follows – Initially, the time is set to
 10 : 14. After 1 second, an alarm is set at the time 10 : 20.
