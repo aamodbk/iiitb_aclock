@@ -1,4 +1,4 @@
-# iiitb_aclock -> Implementation of an Alarm Clock in Verilog applicable in FPGA
+# iiitb_aclock -> Implementation of an Alarm Clock in Verilog
 This project carries out the design and development of a fully implementable Verilog code of a working digital
 alarm clock synthesizable for FPGA. Basic Verilog HDL syntax is
 used for the implementation of this digital design and a testbench
