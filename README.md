@@ -40,6 +40,7 @@ $   iverilog iiitb_aclock.v iiitb_aclock_tb.v
 $   ./a.out
 $   gtkwave test.vcd
 ```
+End the a.out process after the GTKWave window opens to avoid unnecessarily filling up memory.
 
 ## Simulation Results
 In the testbench file, an Under Unit Test (UUT) is instantiated and variables for input and output are provided to the
