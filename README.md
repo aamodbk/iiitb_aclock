@@ -25,7 +25,8 @@ digits. Alarm can also be set upto the accuracy of minutes.
 * Allows option to turn off alarm when it goes off
 
 ## Instructions to Run
-### For Ubuntu
+### IcarusVerilog and GTKWave
+#### For Ubuntu
 Open your terminal and type the following to install IcarusVerilog and GTKWave:
 ```
 $   sudo apt-get update
