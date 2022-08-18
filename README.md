@@ -109,6 +109,7 @@ $ iverilog -DFUNCTIONAL -DUNIT_DELAY=#1 ./verilog_model/primitives.v ./verilog_m
 $ ./a.out
 $ gtkwave test.vcd
 ```
+![Alt text](graph2.png?raw=true "Statistics(2)")
 
 ## Contributors
 * Aamod B K
