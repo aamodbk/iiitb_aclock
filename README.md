@@ -57,6 +57,59 @@ The alarm is then turned off after 1 second and the
 clock-time is reset to 04 : 45. Next, another alarm is set to
 04 : 55, which functions as expected.
 
+## Synthesis of Verilog Code
+Synthesis is a process by which an abstract specification of desired circuit behavior, typically at register transfer level (RTL), is turned into a design implementation in terms of logic gates, typically by a computer program called a synthesis tool. The program we use is called Yosys.
+### About Yosys
+Yosys is an open-source framework for Verilog synthesis. It currently has extensive Verilog-2005 support and provides a basic set of synthesis algorithms for various application domains. Yosys can be adapted to perform any synthesis job by combining the existing passes (algorithms) using synthesis scripts and adding additional passes as needed by extending the Yosys C++ code base.
+
+To install Yosys, follow the instructions given in the refered GitHub repository:
+https://github.com/YosysHQ/yosys
+
+### Instructions for Synthesis
+Create a Yosys script yosys_run.sh in the cloned `/iiitb_aclock` directory and type in the following code into it:
+```
+# read design
+
+read_liberty -lib lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog iiitb_aclock.v
+
+# generic synthesis
+synth -top iiitb_aclock
+
+# mapping to mycells.lib
+dfflibmap -liberty ./lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty ./lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
+flatten
+
+# write synthesized design
+write_verilog -noattr iiitb_aclock_synth.v
+
+stat
+show
+```
+Then run the above script by typing the following command into the terminal:
+```
+yosys -s yosys_run.sh
+```
+Upon entering this command, the synthesis procedure takes place and a new file `iiitb_aclock_synth.v` is created. Also, in the terminal the number and types of cells are printed and the schematic diagram for the design is generated and shown in the Dot Viewer. 
+
+![Alt text](img1.png?raw=true "Statistics(1)")
+![Alt text](img2.png?raw=true "Statistics(2)")
+
+As the schematic is very detailed no image could be included to represent it accurately, therefore, the file `output.dot` is provided along with the code and can be viewed with the Dot Viewer.
+
+## Gate Level Simulation (GLS)
+Gate level Simulation(GLS) is done at the late level of Design cycle. This is run after the RTL code is synthesized into Netlist. Netlist is translation from RTL into Gates and connection wirings with full functional and timing behaviour.
+
+Run the following commands in the terminal to do a gate level simulation of the design:
+```
+$ iverilog -DFUNCTIONAL -DUNIT_DELAY=#1 ./verilog_model/primitives.v ./verilog_model/sky130_fd_sc_hd.v iiitb_aclock_synth.v iiitb_aclock_tb.v
+$ ./a.out
+$ gtkwave test.vcd
+```
+
 ## Contributors
 * Aamod B K
 * Kunal Ghosh
@@ -70,3 +123,6 @@ clock-time is reset to 04 : 45. Next, another alarm is set to
 
 ## References
 * fpga4student -- https://www.fpga4student.com/2016/11/verilog-code-for-alarm-clock-on-fpga.html
+* Wikipedia -- https://en.wikipedia.org/wiki/Logic_synthesis
+* Yosys Documentation -- https://yosyshq.net/yosys/
+* Gate Level Simulation -- https://jerinjacobblog.wordpress.com/2020/07/20/gate-level-simulation-introduction/
