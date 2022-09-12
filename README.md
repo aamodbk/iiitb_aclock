@@ -91,7 +91,7 @@ show
 ```
 Then run the above script by typing the following command into the terminal:
 ```
-yosys -s yosys_run.sh
+$   yosys -s yosys_run.sh
 ```
 Upon entering this command, the synthesis procedure takes place and a new file `iiitb_aclock_synth.v` is created. Also, in the terminal the number and types of cells are printed and the schematic diagram for the design is generated and shown in the Dot Viewer. 
 
@@ -114,7 +114,77 @@ $ gtkwave test.vcd
 ## Layout
 ### Installation of required tools
 #### OpenLane
+OpenLane is an open-source VLSI flow built around open-source tools. That is, it's a collection of scripts that run these tools, in the right order, transforming their inputs and outputs as appropriate, and organising the results. It is an automated RTL to GDSII flow based on several components including OpenROAD, Yosys, Magic, Netgen, CVC, SPEF-Extractor, CU-GR, Klayout and a number of custom scripts for design exploration and optimization. The flow performs full ASIC implementation steps from RTL all the way down to GDSII.
 
+For installation of OpenLane, type the follow the below steps.
+
+Installing python as it is a pre-requisite:
+```
+$   sudo apt install -y build-essential python3 python3-venv python3-pip
+```
+For installing Docker Engine on Ubuntu, use the following link -- https://docs.docker.com/engine/install/ubuntu/.
+
+Next, go to the `iiitb_aclock` directory and type the following in the terminal:
+
+```
+$   git clone https://github.com/The-OpenROAD-Project/OpenLane.git
+$   cd OpenLane
+$   sudo make
+```
+
+Now, to check that OpenLane dependencies are succesfully installed, run the test command:
+
+```
+$   sudo make test
+```
+If the line `Basic test passed` is printed in the terminal, then the installation is successful.
+
+#### Magic
+Magic is an electronic design automation (EDA) layout tool for very-large-scale integration (VLSI) integrated circuit (IC) originally written by John Ousterhout and his graduate students at UC Berkeley. Due largely in part to its liberal Berkeley open-source license, magic has remained popular with universities and small companies. The open-source license has allowed VLSI engineers with a bent toward programming to implement clever ideas and help magic stay abreast of fabrication technology. However, it is the well thought-out core algorithms which lend to magic the greatest part of its popularity. Magic is widely cited as being the easiest tool to use for circuit layout, even for people who ultimately rely on commercial tools for their product design flow.
+
+For installation of magic, type the following commands in your terminal in the `iiitb_aclock` directory to install dependencies:
+```
+$   sudo apt-get install m4
+$   sudo apt-get install csh
+$   sudo apt-get install tcsh
+$   sudo apt-get install libx11-dev
+$   sudo apt-get install tcl-dev tk-dev
+$   sudo apt-get install libcairo2-dev
+$   sudo apt-get install mesa-common-dev libglu1-mesa-dev
+$   sudo apt-get install libncurses-dev
+```
+
+To install Magic, type the following in the terminal:
+```
+$   git clone https://github.com/RTimothyEdwards/magic
+$   cd magic
+$   ./configure
+$   sudo make
+$   sudo make install
+```
+To check if Magic has been successfully installed, type the command `magic` in the terminal.
+
+### Generating Layout
+#### Creating custom inverter cell
+To design a custom inverter cell, include it in library and get it in the final layout, clone the following repo:
+```
+$   git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+$   cd vsdstdcelldesign
+$   cp ./libs/sky130A.tech sky130A.tech
+$   magic -T sky130A.tech sky130_inv.mag
+```
+#### Preparation
+Open the terminal in the `iiitb_aclock` directory and type the following:
+```
+$   cd OpenLane
+$   cd designs
+$   mkdir iiitb_aclock
+$   cd iiitb_aclock
+$   touch config.json
+$   mkdir src
+$   cd src
+$   touch iiitb_aclock.v
+```
 
 ## Contributors
 * Aamod B K
@@ -132,3 +202,5 @@ $ gtkwave test.vcd
 * Wikipedia -- https://en.wikipedia.org/wiki/Logic_synthesis
 * Yosys Documentation -- https://yosyshq.net/yosys/
 * Gate Level Simulation -- https://jerinjacobblog.wordpress.com/2020/07/20/gate-level-simulation-introduction/
+* Magic -- http://www.opencircuitdesign.com/magic/; https://en.wikipedia.org/wiki/Magic_(software)#:~:text=Magic%20is%20an%20electronic%20design,the%20project%20in%20February%201983.
+* OpenLane -- https://github.com/The-OpenROAD-Project/OpenLane
