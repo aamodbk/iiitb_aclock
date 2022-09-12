@@ -111,6 +111,11 @@ $ gtkwave test.vcd
 ```
 ![Alt text](graph2.png?raw=true "Statistics(2)")
 
+## Layout
+### Installation of required tools
+#### OpenLane
+
+
 ## Contributors
 * Aamod B K
 * Kunal Ghosh
