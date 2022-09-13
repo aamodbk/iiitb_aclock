@@ -173,6 +173,62 @@ $   cd vsdstdcelldesign
 $   cp ./libs/sky130A.tech sky130A.tech
 $   magic -T sky130A.tech sky130_inv.mag
 ```
+The following Magic windows should appear:
+
+![Alt text](asic_img/asic1.png?raw=true "Magic Viewport")
+![Alt text](asic_img/asic2.png?raw=true "TCL console")
+
+Now, to simulate the inverter, we need to generate a Spice netlist corresponding to the .mag file. We do this by typing the following commands into the newly opened TCL console.
+```
+%   extract all
+%   ext2spice cthresh 0 rthresh 0
+%   ext2spice
+```
+The generated .spice file should be edited to look as follows:
+```
+* SPICE3 file created from sky130_inv.ext - technology: sky130A
+
+.option scale=0.01u
+
+.include ./libs/pshort.lib
+.include ./libs/nshort.lib
+
+//.subckt sky130_inv A Y VPWR VGND
+
+M1001 Y A VGND VGND nshort_model.0 w=35 l=23
++  ad=1435 pd=152 as=1365 ps=148
+M1000 Y A VPWR VPWR pshort_model.0 w=37 l=23
++  ad=1443 pd=152 as=1517 ps=156
+
+VDD VPWR 0 3.3V
+VSS VGND 0 0V
+Va A VGND PULSE(0V 3.3V 0 0.1ns 0.1ns 2ns 4ns)
+
+C0 Y VPWR 0.08fF
+C1 A Y 0.02fF
+C2 A VPWR 0.08fF
+C3 Y VGND 0.18fF
+C4 VPWR VGND 0.74fF
+//.ends
+
+.tran 1n 20n
+.control
+run
+.endc
+.end
+```
+
+Now, install the ngspice tool if not already installed with the following command:
+```
+$   sudo apt-get install ngspice
+```
+
+Next, compile the .spice file using the ngspice tool and type the following in the ngspice terminal:
+```
+
+```
+![Alt text](asic_img/asic2.png?raw=true "Inverted plots")
+
 #### Preparation
 Open the terminal in the `iiitb_aclock` directory and type the following:
 ```
