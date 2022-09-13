@@ -245,7 +245,7 @@ To ensure the correct placement of ports and to check if they lie on the interse
 
 Then, the Magic viewport will look as follows:
 
-![Alt text](asic_img/asic3.png?raw=true "Inverter plots")
+![Alt text](asic_img/asic5.png?raw=true "Inverter plots")
 
 Now to save the new .mag file, save it with a different name:
 ```
