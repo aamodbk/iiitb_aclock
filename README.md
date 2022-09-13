@@ -223,11 +223,38 @@ Now, install the ngspice tool if not already installed with the following comman
 $   sudo apt-get install ngspice
 ```
 
-Next, compile the .spice file using the ngspice tool and type the following in the ngspice terminal:
+Next, compile the .spice file using the ngspice tool:
 ```
+$   ngspice sky130_inv.spice
 
 ```
-![Alt text](asic_img/asic2.png?raw=true "Inverted plots")
+
+![Alt text](asic_img/asic4.png?raw=true "Terminal commands")
+
+And then type the following in the ngspice terminal to plot the inverter characteristics:
+```
+ngspice 1 -> plot y vs time a
+```
+
+![Alt text](asic_img/asic3.png?raw=true "Inverter plots")
+
+To ensure the correct placement of ports and to check if they lie on the intersection of tracks of the corresponding metal, we need to draw a grid over the layout. To do this, use the below command in the TCL console.
+```
+%   grid 0.46um 0.34um 0.23um 0.17um
+```
+
+Then, the Magic viewport will look as follows:
+
+![Alt text](asic_img/asic3.png?raw=true "Inverter plots")
+
+Now to save the new .mag file, save it with a different name:
+```
+%   save sky130_vsdinv.mag
+```
+Then, in the TCL console type the following to generate the .lef file:
+```
+$   lef write
+```
 
 #### Preparation
 Open the terminal in the `iiitb_aclock` directory and type the following:
@@ -239,8 +266,76 @@ $   cd iiitb_aclock
 $   touch config.json
 $   mkdir src
 $   cd src
-$   touch iiitb_aclock.v
 ```
+Into the `\src` folder, copy the following files:
+* `iiitb_aclock.v`
+* `sky130_fd_sc_hd__fast.lib`
+* `sky130_fd_sc_hd__slow.lib`
+* `sky130_fd_sc_hd__typical.lib`
+* `sky130_vsdinv.lef`
+
+Now, edit the created file `config.js` to look like:
+```
+{
+    "DESIGN_NAME": "iiitb_aclock",
+    "VERILOG_FILES": "dir::src/iiitb_aclock.v",
+    "CLOCK_PORT": "clk",
+    "CLOCK_NET": "clk",
+    "GLB_RESIZER_TIMING_OPTIMIZATIONS": true,
+    "CLOCK_PERIOD": 6,
+    "PL_TARGET_DENSITY": 0.5,
+    "FP_SIZING" : "relative",
+    "pdk::sky130*": {
+        "FP_CORE_UTIL": 5,
+        "scl::sky130_fd_sc_hd": {
+            "FP_CORE_UTIL": 5
+        }
+    },
+    
+    "LIB_SYNTH": "dir::src/sky130_fd_sc_hd__typical.lib",
+    "LIB_FASTEST": "dir::src/sky130_fd_sc_hd__fast.lib",
+    "LIB_SLOWEST": "dir::src/sky130_fd_sc_hd__slow.lib",
+    "LIB_TYPICAL": "dir::src/sky130_fd_sc_hd__typical.lib",
+    "TEST_EXTERNAL_GLOB": "dir::../iiitb_aclock/src/*",
+    "SYNTH_DRIVING_CELL":"sky130_vsdinv"
+
+}
+```
+Change current directory to `OpenLane` and run the following on the terminal:
+```
+$   sudo make mount
+```
+When the OpenLane container opens type the following to open the TCL console:
+```
+$   ./flow.tcl -interactive
+```
+
+Then run the below commands on the TCL console:
+```
+%   package require openlane 0.9
+%   prep -design iiitb_aclock
+```
+Now type the following command to merge the .lef files into a new file named `merged.nom.lef` in the `designs/iiitb_aclock/runs/` folder:
+```
+%   set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+%   add_lefs -src $lefs
+```
+
+### Synthesis
+Run the synthesis command on the TCL console:
+```
+%   run_synthesis
+```
+On running this command, check the `/runs` folder and search for the .stat.rpt file which reports the synthesis statistics.
+
+![Alt text](asic_img/asic6.png?raw=true "Synthesis")
+
+The Hold slack and statistics of used gates will be displayed in the `2-sta.log` file:
+
+![Alt text](asic_img/asic7.png?raw=true "Slack")
+
+### Floorplan
+
 
 ## Contributors
 * Aamod B K
